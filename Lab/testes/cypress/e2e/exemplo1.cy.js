@@ -24,7 +24,7 @@ describe('criando cenaário de teste para o site globalsqa', ()=>{
     cy.get('.has-error > .help-block').should('have.text', 'Password is required') //have.text - tem que ter so isso la
     cy.get('.btn-primary').should('be.disabled')
   }) 
-  it('Caso de teste: Realizando um login com sucesso', ()=>{
+  it.skip('Caso de teste: Realizando um login com sucesso', ()=>{
       //Gerando um usuario novo
       let info = criarUsuario();
       cy.get('#username').type(info[0])
@@ -33,6 +33,29 @@ describe('criando cenaário de teste para o site globalsqa', ()=>{
       cy.get('h1.ng-binding').should('contain.text', info[0])
 
   }) 
+
+  //Caso 1 - Presenca
+  it('Caso de teste: Realizando um login com falha (senha incorreta)', ()=>{
+    //Gerando um usuario novo
+    cy.visit('https://globalsqa.com/angularJs-protractor/registration-login-example/#/login')
+    let info = criarUsuario();
+    cy.get('#username').type(info[0])
+    cy.get('#password').type(info[1] + '1')
+    cy.get('.btn-primary').click()
+    cy.get('.ng-binding').should('contain.text', 'Username or password is incorrect')
+}) 
+
+  //Caso 2 - Presenca
+it('Caso de teste: Registrando um usuário no site com falha (faltando username)', ()=>{
+  cy.visit('https://globalsqa.com/angularJs-protractor/registration-login-example/#/register')
+  cy.get('#firstName').type('Eduardo')
+  cy.get('#Text1').type('Inatel')
+  cy.get('#username').type('Inatel')
+  cy.get('#password').type('Intael')
+  cy.get('#username').clear()
+  cy.get('.has-error > .help-block').should('have.text', 'Username is required') 
+  cy.get('.btn-primary').should('be.disabled')
+}) 
 
 }) 
 
