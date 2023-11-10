@@ -3,7 +3,7 @@
 describe('criando cenaário de teste para o site globalsqa', ()=>{
 
   //casos de teste
-  it.skip('Caso de teste: Registrando um usuário no site com sucesso', ()=>{
+  it('Caso de teste: Registrando um usuário no site com sucesso', ()=>{
     cy.visit('https://globalsqa.com/angularJs-protractor/registration-login-example/#/login')
     cy.get('.btn-link').click()
     cy.get('#firstName').type('Eduardo')
@@ -14,7 +14,7 @@ describe('criando cenaário de teste para o site globalsqa', ()=>{
     cy.get('.ng-binding').should('contain.text', 'Registration successful') //contain.text - tem que ta escrito aqui, mas pode ter mais coisa
   }) 
 
-  it.skip('Caso de teste: Registrando um usuário no site com falha (faltando senha)', ()=>{
+  it('Caso de teste: Registrando um usuário no site com falha (faltando senha)', ()=>{
     cy.visit('https://globalsqa.com/angularJs-protractor/registration-login-example/#/register') //direto na pagina de registro
     cy.get('#firstName').type('Eduardo')
     cy.get('#Text1').type('Inatel')
@@ -24,7 +24,7 @@ describe('criando cenaário de teste para o site globalsqa', ()=>{
     cy.get('.has-error > .help-block').should('have.text', 'Password is required') //have.text - tem que ter so isso la
     cy.get('.btn-primary').should('be.disabled')
   }) 
-  it.skip('Caso de teste: Realizando um login com sucesso', ()=>{
+  it('Caso de teste: Realizando um login com sucesso', ()=>{
       //Gerando um usuario novo
       let info = criarUsuario();
       cy.get('#username').type(info[0])
@@ -57,6 +57,14 @@ it('Caso de teste: Registrando um usuário no site com falha (faltando username)
   cy.get('.btn-primary').should('be.disabled')
 }) 
 
+it('Caso de teste: Deletando usuario com sucesso', ()=>{
+  let info = criarUsuario();
+  cy.login(info[0], info[1]) //Aqui foi criado um comando pra realizar login (olhar pasta support)
+  cy.get('.ng-binding > a').click()
+  cy.get('.btn').click();
+  cy.login(info[0], info[1])
+  cy.get('.ng-binding').should('have.text', 'Username or password is incorrect')
+
 }) 
 
 function criarUsuario(){
@@ -79,3 +87,4 @@ function criarUsuario(){
 
     return userInfo
 }
+})
